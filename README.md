@@ -2,11 +2,15 @@
 
 WebGL, web-based multiplayer game based on Konami's PoyPoy PS1 game
 
-## References
+## References#1
 
 1) https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Getting_started_with_WebGL; last accessed: 20240419
 
 2) https://github.com/mdn/dom-examples/tree/main/webgl-examples/tutorial/sample1; last accessed: 20240419
+
+## References#2
+
+1) https://libgdx.com/wiki/start/project-generation; last accessed: 20240419
 
 ## Open Source Software License
 Copyright 2024 SYSON, MICHAEL B.
