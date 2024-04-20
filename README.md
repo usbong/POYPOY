@@ -8,6 +8,12 @@ WebGL, web-based multiplayer game based on Konami's PoyPoy PS1 game
 
 2) https://github.com/mdn/dom-examples/tree/main/webgl-examples/tutorial/sample1; last accessed: 20240419
 
+### Importing 3D .obj files into WebGL
+
+1) https://webglfundamentals.org/webgl/lessons/webgl-load-obj.html; last accessed: 20240420
+ 
+2) https://github.com/usbong/documentation/blob/master/Usbong/R%26D/Automotive/UsbongCAD/Usbong3DTool/OpenGLCanvas.cpp; last accessed: 20240420
+
 ## References#2
 
 1) https://libgdx.com/wiki/start/project-generation; last accessed: 20240419
