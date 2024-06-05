@@ -15,7 +15,7 @@
  * @company: Usbong
  * @author: SYSON, MICHAEL B.
  * @date created: 20240522
- * @last updated: 20240522
+ * @last updated: 20240605; from 20240522
  * @website: www.usbong.ph
  *
  */ 
@@ -23,7 +23,9 @@
  Additional Notes:
  1) compile on Windows Machine;
  
- javac -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl.opengl.jar;org/lwjgl.opengl.natives.windows.jar usbongMain.java
+ //javac -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl.opengl.jar;org/lwjgl.opengl.natives.windows.jar usbongMain.java
+
+ javac -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl-natives-windows-x86.jar;org/lwjgl.opengl.jar;org/lwjgl.opengl.natives.windows.jar usbongMain.java
  
  reminder: change the filenames to compile successfully
  
@@ -42,9 +44,30 @@
  1.5) https://github.com/LWJGL/lwjgl3-demos; last accessed: 20240522
  lwjgl3-demos-main/src/org/lwjgl/demo/util/IOUtils.java
  note: java file (not jar)
+ 
+ 
+ 2) Execute
+ 
+ //java -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl.opengl.jar;org/lwjgl.opengl.natives.windows.jar usbongMain
+
+ java -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl-natives-windows-x86.jar;org/lwjgl.opengl.jar;org/lwjgl.opengl.natives.windows.jar usbongMain
+ 
 */ 
 
 /*
+current error; 20240605
+UnsatisfiedLinkError: Failed to locate library: lwjgl_opengl.dll
+
+expects solution to be similar to adding classpath of "org/lwjgl-natives-windows-x86.jar"
+
+Reference:
+https://stackoverflow.com/questions/38934607/lwjgl-failed-to-load-a-library; last accessed: 20240605
+answer by: Mectb 3a Marty, 20190613T0833
+edited by: Cà phê đen, 20190613T0920
+*/
+
+/*
+fixed; 20240605
 Reference:
 lwjgl3-master/lwjgl3-master/modules/samples/src/test/java/org/lwjgl/demo/opengl/GLXGears.java
 
