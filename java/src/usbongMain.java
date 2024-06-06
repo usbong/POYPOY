@@ -15,17 +15,18 @@
  * @company: Usbong
  * @author: SYSON, MICHAEL B.
  * @date created: 20240522
- * @last updated: 20240605; from 20240522
+ * @last updated: 20240606; from 20240605
  * @website: www.usbong.ph
  *
  */ 
 /*
  Additional Notes:
  1) compile on Windows Machine;
+ //reminder machine specs; example: Windows 64-bit system
  
  //javac -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl.opengl.jar;org/lwjgl.opengl.natives.windows.jar usbongMain.java
 
- javac -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl-natives-windows-x86.jar;org/lwjgl.opengl.jar;org/lwjgl.opengl.natives.windows.jar usbongMain.java
+ javac -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl-natives-windows.jar;org/lwjgl-opengl.jar;org/lwjgl-opengl-natives-windows.jar usbongMain.java
  
  reminder: change the filenames to compile successfully
  
@@ -50,12 +51,19 @@
  
  //java -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl.opengl.jar;org/lwjgl.opengl.natives.windows.jar usbongMain
 
- java -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl-natives-windows-x86.jar;org/lwjgl.opengl.jar;org/lwjgl.opengl.natives.windows.jar usbongMain
+ java -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl-natives-windows.jar;org/lwjgl-opengl.jar;org/lwjgl-opengl-natives-windows.jar usbongMain
  
 */ 
 
 /*
-current error; 20240605
+current error; 20240606
+LWJGL; JVM platform Windows x86
+however, Platform available on classpath: windows/x64
+Failed to locate library: lwjgl.dll
+
+## --
+
+fixed; 20240606; error on 20240605
 UnsatisfiedLinkError: Failed to locate library: lwjgl_opengl.dll
 
 expects solution to be similar to adding classpath of "org/lwjgl-natives-windows-x86.jar"
