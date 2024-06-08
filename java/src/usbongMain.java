@@ -15,7 +15,7 @@
  * @company: Usbong
  * @author: SYSON, MICHAEL B.
  * @date created: 20240522
- * @last updated: 20240606; from 20240605
+ * @last updated: 20240608; from 20240606
  * @website: www.usbong.ph
  *
  */ 
@@ -46,7 +46,6 @@
  lwjgl3-demos-main/src/org/lwjgl/demo/util/IOUtils.java
  note: java file (not jar)
  
- 
  2) Execute
  
  //java -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl.opengl.jar;org/lwjgl.opengl.natives.windows.jar usbongMain
@@ -56,10 +55,14 @@
 */ 
 
 /*
-current error; 20240606
+current error; 20240608; from 20240606
 LWJGL; JVM platform Windows x86
 however, Platform available on classpath: windows/x64
 Failed to locate library: lwjgl.dll
+
+TODO: -download Java SE 8 SDK; Windows x64
+
+https://www.oracle.com/ph/java/technologies/javase/javase8-archive-downloads.html; last accessed: 20240608
 
 ## --
 
