@@ -15,7 +15,7 @@
  * @company: Usbong
  * @author: SYSON, MICHAEL B.
  * @date created: 20240522
- * @last updated: 20240608; from 20240606
+ * @last updated: 20240609; from 20240608
  * @website: www.usbong.ph
  *
  */ 
@@ -27,7 +27,7 @@
  //javac -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl.opengl.jar;org/lwjgl.opengl.natives.windows.jar usbongMain.java
 
  javac -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl-natives-windows.jar;org/lwjgl-opengl.jar;org/lwjgl-opengl-natives-windows.jar usbongMain.java
- 
+
  reminder: change the filenames to compile successfully
  
  1.1) https://github.com/JOML-CI/JOML/releases; last accessed: 20240522
@@ -46,6 +46,11 @@
  lwjgl3-demos-main/src/org/lwjgl/demo/util/IOUtils.java
  note: java file (not jar)
  
+ 1.6) https://jdk.java.net/java-se-ri/8-MR5; last accessed: 20240609
+ 
+ System Properties --> Environment Variables... --> Path
+ "C:\Program Files (x86)\Java\java-se-8u43-ri\bin"
+ 
  2) Execute
  
  //java -cp .;org/joml.jar;org/lwjgl.jar;org/lwjgl.opengl.jar;org/lwjgl.opengl.natives.windows.jar usbongMain
@@ -55,7 +60,23 @@
 */ 
 
 /*
-current error; 20240608; from 20240606
+current error; 20240609; from 20240608
+
+Architecture mismatch; "JVM platform: Windows x86 1.8.0_43
+Platform available on classpath: windows/x64
+
+http://forum.lwjgl.org/index.php?topic=6343.0; last accessed: 20240609
+
+> It was an old project with the "lwjgl-platform" solution. So apparently I was downloading the last java bindings and an old "lwjgl-platform" that it was still available in the repository. 
+
+from advanced_set, 20161012T2339
+
+ACTION: TODO: -verify creating java app without LWJGL; 
+
+https://jdk.java.net/java-se-ri/8-MR5; last accessed: 20240609
+
+## --
+
 LWJGL; JVM platform Windows x86
 however, Platform available on classpath: windows/x64
 Failed to locate library: lwjgl.dll
@@ -105,7 +126,9 @@ import java.util.*;
 //import static org.joml.Math.*;
 //import static org.joml.*; //added by Mike, 20240522
 
+/* //removed by Mike, 20240609
 import org.lwjgl.demo.util.IOUtils;
+*/
 
 import static org.lwjgl.opengl.GL30C.*;
 import static org.lwjgl.system.MemoryStack.*;
