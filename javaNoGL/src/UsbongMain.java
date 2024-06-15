@@ -15,7 +15,7 @@
  * @company: Usbong
  * @author: SYSON, MICHAEL B.
  * @date created: 20240522
- * @last updated: 20240614; from 20240613
+ * @last updated: 20240615; from 20240614
  * @website: www.usbong.ph
  *
  */ 
@@ -49,40 +49,26 @@ import javax.swing.JFrame;
 
 import java.awt.BorderLayout;
 
+//added by Mike, 20240615
+import java.awt.event.*;
+
 /*
 import java.io.*;
 import java.nio.*;
 import java.util.*;
 */
 
-public class UsbongMain {	 
-
-  private static UsbongMain instance;
+public class UsbongMain {
 
   public UsbongMain() {
   }
-	
+  
   public static void main(String args[]) {
     System.out.println("HALLO!");
 	
-	instance = new UsbongMain();
-	
-	MyCanvas myCanvas = new MyCanvas();
-    myCanvas.init();
-	
-	JFrame myJFrame = new JFrame();
-	myJFrame.setLayout(new BorderLayout());
-	
-	final JPanel myJPanel = new JPanel(new BorderLayout());
-	myJPanel.add(myCanvas);
-	
-	myJFrame.add(myJPanel, BorderLayout.CENTER);
-	
-	//https://stackoverflow.com/questions/22982295/what-does-pack-do; last accessed: 20240613
-	//answer by sidgate, 20140410T0812
-	//"The pack method sizes the frame so that all its contents are at or above their preferred sizes."
-	myJFrame.pack(); 
-	
-	myJFrame.setVisible(true);
+	//instance = new UsbongMain();
+		
+	MyJPanel myJPanel = new MyJPanel();
+    myJPanel.init();
   }
 }

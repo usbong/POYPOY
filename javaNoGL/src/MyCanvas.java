@@ -54,7 +54,7 @@ public class MyCanvas extends Canvas {
 
 		System.out.println("width: "+iWidth);
 		System.out.println("height: "+iHeight);
-
+		
 		this.setBackground(Color.white);
         this.setSize(iWidth, iHeight);
 		this.repaint();
