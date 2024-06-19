@@ -55,19 +55,41 @@ import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.Dimension;
 
+//added by Mike, 20240619
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+
 //Reference: https://stackoverflow.com/questions/24088094/jframe-mouselistener-does-not-work; last accessed: 20240618
 //answer by: Resigned June 2023, 20240606T1837
 
 public class UsbongMain extends JFrame {
-  //public static final int windowSize = 2048;   
+  //added by Mike, 20240619
+  private static UsbongMain instance;
   
-  //TODO: -reverify: this; 60fps?
-  public static final int updateDelay = 20; 
+  //private static ImagePanel myImagePanel;  
+  private static BufferedImage myBufferedImage;
+  
+  //public static final int windowSize = 2048;   
+    
+  //edited by Mike, 20240619
+  //reference: Usbong Game Off 2023 Main
+  //1000/60=16.66; 60 frames per second
+  //1000/30=33.33; 30 frames 
+  //const fFramesPerSecondDefault=16.66;
+  //const fFramesPerSecondDefault=33.33;  
+  public static final int updateDelay = 16;//20; 
   	
   private ScheduledExecutorService timer = Executors.newScheduledThreadPool(1);  
 
   public UsbongMain() {
 	  super("Usbong"); 
+
+	  //added by Mike, 20240619	  
+	  instance = this;
 	  
 	  //edited by Mike, 20240618
 	  //setSize(windowSize, windowSize);    
@@ -93,6 +115,19 @@ public class UsbongMain extends JFrame {
       panel.addKeyListener(new KeyListener() {    
             public void keyPressed(KeyEvent key) {  
                 System.out.println("Key pressed."); 
+
+				//added by Mike, 20240619
+				if (key.getKeyCode() == KeyEvent.VK_ESCAPE){
+					//TODO: -add: open exit menu
+					instance.dispatchEvent(new WindowEvent(instance, WindowEvent.WINDOW_CLOSING));
+
+/*					
+					//note: more noticeable repaints after; timer problem?
+					instance.dispose();
+					instance.setUndecorated(false);
+					instance.setVisible(true);
+*/					
+				}				
             }   
             public void keyReleased(KeyEvent key) {}    
             public void keyTyped(KeyEvent key) {}   
@@ -115,6 +150,22 @@ public class UsbongMain extends JFrame {
 	  	  
       add(panel); 
       panel.requestFocus();   
+	  
+	  //added by Mike, 20240619
+/*	  
+	  myImagePanel = new ImagePanel();
+	  add(myImagePanel);
+*/
+	  //https://stackoverflow.com/questions/299495/how-to-add-an-image-to-a-jpanel; last accessed: 20240619
+	  //answered by: Brendan Cashman, 20081118T1750
+	  //edited by: Andrew Thompson, 20161018T2345
+
+	  //TODO: -put: in another file
+	  try {         
+          //image = ImageIO.read(new File("D:/USBONG/res/count.png"));
+		  myBufferedImage = ImageIO.read(new File("../res/count.png"));
+      } catch (IOException ex) {			
+      }	  
 
 	  //https://stackoverflow.com/questions/22982295/what-does-pack-do; last accessed: 20240613
 	  //answer by sidgate, 20140410T0812
@@ -125,16 +176,21 @@ public class UsbongMain extends JFrame {
 	  //note set after the previous set of instructions
       setVisible(true);
 	  
-	  //edited by Mike, 20240618
-	  //timer.scheduleAtFixedRate(() -> repaint(), 0, 200, MILLISECONDS);   
-	  timer.scheduleAtFixedRate(() -> repaint(), 0, updateDelay, MILLISECONDS);   	  
+	  //edited by Mike, 20240619
+	  //timer.scheduleAtFixedRate(() -> repaint(), 0, updateDelay, MILLISECONDS);
+   	  timer.scheduleAtFixedRate(() -> update(), 0, updateDelay, MILLISECONDS);
   }
   
   public static void main(String args[]) {	  
     System.out.println("HALLO!");
 	
-	//instance = new UsbongMain();
-	new UsbongMain();
+	instance = new UsbongMain();
+	//new UsbongMain();
+  }
+  
+  //added by Mike, 20240619
+  public void update() {
+	  repaint();
   }
   
   public void paint(Graphics g) { 
@@ -144,6 +200,12 @@ public class UsbongMain extends JFrame {
     g.fillRect(0, 0, this.getWidth(), this.getHeight());
 
 	g.setColor(Color.red);		
-	g.drawRect(100, 100, 100, 100);	
+	//edited by Mike, 20240619
+	//g.drawRect(100, 100, 100, 100);	
+	g.drawRect(800, 400, 100, 100);	
+	
+	//added by Mike, 20240619
+    //myImagePanel.paintComponent(g);	
+	g.drawImage(myBufferedImage, 0, 0, this);  
   }  
 }
