@@ -15,7 +15,7 @@
  * @company: Usbong
  * @author: SYSON, MICHAEL B.
  * @date created: 20240522
- * @last updated: 20240618; from 20240615
+ * @last updated: 20240620; from 20240618
  * @website: www.usbong.ph
  *
  */ 
@@ -50,6 +50,10 @@ import static java.util.concurrent.TimeUnit.*;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Color;
+
+//added by Mike, 20240620
+import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 
 //added by Mike, 20240614
 import java.awt.Toolkit;
@@ -178,7 +182,7 @@ public class UsbongMain extends JFrame {
 	  
 	  //edited by Mike, 20240619
 	  //timer.scheduleAtFixedRate(() -> repaint(), 0, updateDelay, MILLISECONDS);
-   	  timer.scheduleAtFixedRate(() -> update(), 0, updateDelay, MILLISECONDS);
+   	  timer.scheduleAtFixedRate(() -> run(), 0, updateDelay, MILLISECONDS);
   }
   
   public static void main(String args[]) {	  
@@ -189,7 +193,9 @@ public class UsbongMain extends JFrame {
   }
   
   //added by Mike, 20240619
-  public void update() {
+  public void run() {
+	  //TODO: -add: update() for the logic part, non-paint tasks
+	  
 	  repaint();
   }
   
@@ -206,6 +212,15 @@ public class UsbongMain extends JFrame {
 	
 	//added by Mike, 20240619
     //myImagePanel.paintComponent(g);	
+	
+	//added by Mike, 20240620
+	//g.drawImage(myBufferedImage, 0, 0, this);  
+	//TODO: -verify: if clip still has to be cleared
+	Rectangle2D rect = new Rectangle2D.Float();
+	rect.setRect(0, 0, 128, 128);
+	Area myClipArea = new Area(rect);
+	g.setClip(myClipArea);	
 	g.drawImage(myBufferedImage, 0, 0, this);  
+	
   }  
 }
