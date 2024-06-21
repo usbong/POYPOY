@@ -15,7 +15,7 @@
  * @company: Usbong
  * @author: SYSON, MICHAEL B.
  * @date created: 20240522
- * @last updated: 20240620; from 20240618
+ * @last updated: 20240621; from 20240620
  * @website: www.usbong.ph
  *
  */ 
@@ -76,6 +76,12 @@ public class UsbongMain extends JFrame {
   
   //private static ImagePanel myImagePanel;  
   private static BufferedImage myBufferedImage;
+  //added by Mike, 20240621
+  private static int iFrameCount;
+  private static int iFrameCountMax;
+  private static int iFrameCountDelay;
+  private static int iFrameCountDelayMax;
+  
   
   //public static final int windowSize = 2048;   
     
@@ -171,6 +177,12 @@ public class UsbongMain extends JFrame {
       } catch (IOException ex) {			
       }	  
 
+	  //added by Mike, 20240621
+	  iFrameCount=0;
+	  iFrameCountMax=4;
+	  iFrameCountDelay=0;
+	  iFrameCountDelayMax=20;
+	  
 	  //https://stackoverflow.com/questions/22982295/what-does-pack-do; last accessed: 20240613
 	  //answer by sidgate, 20140410T0812
 	  //"The pack method sizes the frame so that all its contents are at or above their preferred sizes."
@@ -182,6 +194,7 @@ public class UsbongMain extends JFrame {
 	  
 	  //edited by Mike, 20240619
 	  //timer.scheduleAtFixedRate(() -> repaint(), 0, updateDelay, MILLISECONDS);
+	  //edited by Mike, 20240621
    	  timer.scheduleAtFixedRate(() -> run(), 0, updateDelay, MILLISECONDS);
   }
   
@@ -217,10 +230,27 @@ public class UsbongMain extends JFrame {
 	//g.drawImage(myBufferedImage, 0, 0, this);  
 	//TODO: -verify: if clip still has to be cleared
 	Rectangle2D rect = new Rectangle2D.Float();
-	rect.setRect(0, 0, 128, 128);
+	
+	//added by Mike, 20240621
+	//iFrameCount=2;
+	
+	//rect.setRect(0, 0, 128, 128);
+	//rect.setRect(iFrameCount*128, 0, 128, 128);
+	//note: clip rect has to move with object position
+	rect.setRect(iFrameCount*128-iFrameCount*128, 0, 128, 128);
+
 	Area myClipArea = new Area(rect);
 	g.setClip(myClipArea);	
-	g.drawImage(myBufferedImage, 0, 0, this);  
+	//added by Mike, 20240621	
+	//g.drawImage(myBufferedImage, 0, 0, this);  
+	g.drawImage(myBufferedImage, 0-iFrameCount*128, 0, this);  
 	
-  }  
+	if (iFrameCountDelay<iFrameCountDelayMax) {
+		iFrameCountDelay++;
+	}
+	else {
+		iFrameCount=(iFrameCount+1)%iFrameCountMax;
+		iFrameCountDelay=0;
+	}
+  }
 }
