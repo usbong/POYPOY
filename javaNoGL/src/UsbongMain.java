@@ -138,9 +138,10 @@ public class UsbongMain {
       GraphicsDevice gd =
                   GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
 
+      //macOS, Windows both have "Full Screen Support"
       if (gd.isFullScreenSupported()) {
           gd.setFullScreenWindow(f);
-      } else {
+      } else { //note: in case, no "Full Screen Support"
           f.setSize(iWidth, iHeight);
           f.setVisible(true);
       }
