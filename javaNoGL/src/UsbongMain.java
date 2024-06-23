@@ -92,9 +92,14 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 
 //sound
+/* //edited by Mike, 20240623
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.embed.swing.JFXPanel;
+*/
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.AudioInputStream;
 
 //TODO: -verify: in another computer with Java Virtual Machine
 
@@ -168,13 +173,23 @@ public class UsbongMain {
     //removed by Mike, 20240622
     //f.setVisible(true);
 
-    //added by Mike, 20240623
+/*  //edited by Mike, 20240623
     final JFXPanel fxPanel = new JFXPanel();
     String sCanonFilename = "../assets/audio/usbongGameOff2023AudioEffectsCannon.mp3";
     Media canonSound = new Media(new File(sCanonFilename).toURI().toString());
     MediaPlayer mediaPlayer = new MediaPlayer(canonSound);
     mediaPlayer.play();
-
+*/
+	playSound("../assets/audio/usbongGameOff2023AudioEffectsCannon.wav");
+	//https://en.wikipedia.org/wiki/File:MIDI_sample.mid?qsrc=3044; last accessed: 20240623
+	//midi files playable;
+	//however, known warning appears: 
+	//https://stackoverflow.com/questions/23720446/java-could-not-open-create-prefs-error; last accessed: 20240623
+	//...java.util.prefs.WindowsPreferences <init>
+	//WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs at root 
+    //0x80000002. Windows RegCreateKeyEx(...) returned error code 5.
+	//playSound("../assets/audio/MIDI_sample.mid");
+	
 		//timer.scheduleAtFixedRate(() -> mainRun(), 0, updateDelay, MILLISECONDS);
 
 		TimerTask myTimerTask = new TimerTask(){
@@ -188,6 +203,24 @@ public class UsbongMain {
 		Timer myTimer = new Timer(true);
 		myTimer.scheduleAtFixedRate(myTimerTask, 0, updateDelay); //60 * 1000);
     }
+	
+	//reference: https://stackoverflow.com/questions/26305/how-can-i-play-sound-in-java;
+	//last accessed: 20240623
+	//answered by: Andrew Jenkins, 20160608T0441
+	//edited by: Sebastian, 20200608T1929
+	//note: .mp3 format not available
+	private static void playSound(String soundFile) {
+		  try {
+			Clip clip = AudioSystem.getClip();
+			File f = new File("" + soundFile);
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(f.toURI().toURL());  
+
+			clip.open(audioIn);
+			clip.start(); 
+		  } catch (Exception e) {
+			System.err.println(e.getMessage());
+		  }		
+	}
 }
 
 //note JPanel? JFrame? confusing at the start, without working sample code;
