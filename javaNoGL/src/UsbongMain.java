@@ -15,7 +15,7 @@
  * @company: Usbong
  * @author: SYSON, MICHAEL B.
  * @date created: 20240522
- * @last updated: 20240622; from 20240621
+ * @last updated: 20240623; from 20240622
  * @website: www.usbong.ph
  *
  */
@@ -41,8 +41,11 @@ https://www.oracle.com/ph/java/technologies/javase/javase8-archive-downloads.htm
 */
 
 /*
-//Reference:  https://docs.oracle.com/javase/tutorial/uiswing/painting/refining.html; last accessed: 20240622
-SwingPaintDemo4.java
+//Reference:
+1) https://docs.oracle.com/javase/tutorial/uiswing/painting/refining.html; last accessed: 20240622
+SwingPaintDemo4.java; last accessed: 20240622; from 20240623
+
+2) https://github.com/usbong/game-off-2023; last accessed: 20240623
 */
 
 import javax.swing.SwingUtilities;
@@ -83,6 +86,15 @@ import java.awt.Dimension;
 //added by Mike, 20240622
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+
+//added by Mike, 20240623
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+
+//sound
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.embed.swing.JFXPanel;
 
 //TODO: -verify: in another computer with Java Virtual Machine
 
@@ -155,6 +167,13 @@ public class UsbongMain {
 
     //removed by Mike, 20240622
     //f.setVisible(true);
+
+    //added by Mike, 20240623
+    final JFXPanel fxPanel = new JFXPanel();
+    String sCanonFilename = "../assets/audio/usbongGameOff2023AudioEffectsCannon.mp3";
+    Media canonSound = new Media(new File(sCanonFilename).toURI().toString());
+    MediaPlayer mediaPlayer = new MediaPlayer(canonSound);
+    mediaPlayer.play();
 
 		//timer.scheduleAtFixedRate(() -> mainRun(), 0, updateDelay, MILLISECONDS);
 
@@ -251,12 +270,12 @@ class MyPanel extends JPanel {
         return new Dimension(250,200);
     }
 
-	public void update() {
-		myDice.update();
+	  public void update() {
+		  myDice.update();
 
-		//OK
-		//System.out.println("!!!");
-	}
+		  //OK
+		  //System.out.println("!!!");
+	  }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -361,7 +380,7 @@ class Dice {
 		}
 	}
 
-    public void draw(Graphics g){
+  public void draw(Graphics g){
 		//TODO: -verify: if clip still has to be cleared
 		Rectangle2D rect = new Rectangle2D.Float();
 
@@ -371,12 +390,44 @@ class Dice {
 		//rect.setRect(0, 0, 128, 128);
 		//rect.setRect(iFrameCount*128, 0, 128, 128);
 		//note: clip rect has to move with object position
-		rect.setRect(iFrameCount*128-iFrameCount*128, 0, 128, 128);
+    //edited by Mike, 20240623
+    //reminder:
+    //300 is object position;
+    //iFrameCount*128 is the animation frame to show;
+    //-iFrameCount*128 is move the object position to the current frame;
+    rect.setRect(300+iFrameCount*128-iFrameCount*128, 0, 128, 128);
+    //rect.setRect(0+iFrameCount*128-iFrameCount*128, 0, 128, 128);
 
 		Area myClipArea = new Area(rect);
+    //edited by Mike, 20240623
+/*
 		g.setClip(myClipArea);
 		//added by Mike, 20240621
 		//g.drawImage(myBufferedImage, 0, 0, this);
 		g.drawImage(myBufferedImage, 0-iFrameCount*128, 0, null);
+*/
+    //added by Mike, 20240623
+    AffineTransform identity = new AffineTransform();
+
+    Graphics2D g2d = (Graphics2D)g;
+    AffineTransform trans = new AffineTransform();
+    trans.setTransform(identity);
+    //300 is object position;
+    trans.translate(300-iFrameCount*128, 0);
+    //trans.translate(-iFrameCount*128, 0);
+
+/*  //reference: https://stackoverflow.com/questions/8721312/java-image-cut-off; last accessed: 20240623
+    //animating image doable, but shall need more computations;
+    //sin, cos; Bulalakaw Wars;
+    trans.translate(128/2,128/2);
+    trans.rotate(Math.toRadians(45)); //input in degrees
+    trans.translate(-128/2,-128/2);
+*/
+
+    g2d.setClip(myClipArea);
+
+    //g2d.drawImage(image, trans, this);
+    g2d.drawImage(myBufferedImage, trans, null);
+
     }
 }
