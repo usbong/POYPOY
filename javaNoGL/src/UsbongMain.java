@@ -15,7 +15,7 @@
  * @company: Usbong
  * @author: SYSON, MICHAEL B.
  * @date created: 20240522
- * @last updated: 20240623; from 20240622
+ * @last updated: 20240625; from 20240624
  * @website: www.usbong.ph
  *
  */
@@ -180,7 +180,7 @@ public class UsbongMain {
     MediaPlayer mediaPlayer = new MediaPlayer(canonSound);
     mediaPlayer.play();
 */
-	playSound("../assets/audio/usbongGameOff2023AudioEffectsCannon.wav");
+	//playSound("../assets/audio/usbongGameOff2023AudioEffectsCannon.wav");
 	//https://en.wikipedia.org/wiki/File:MIDI_sample.mid?qsrc=3044; last accessed: 20240623
 	//midi files playable;
 	//however, known warning appears: 
@@ -188,7 +188,7 @@ public class UsbongMain {
 	//...java.util.prefs.WindowsPreferences <init>
 	//WARNING: Could not open/create prefs root node Software\JavaSoft\Prefs at root 
     //0x80000002. Windows RegCreateKeyEx(...) returned error code 5.
-	//playSound("../assets/audio/MIDI_sample.mid");
+	playSound("../assets/audio/MIDI_sample.mid");
 	
 		//timer.scheduleAtFixedRate(() -> mainRun(), 0, updateDelay, MILLISECONDS);
 
@@ -413,6 +413,7 @@ class Dice {
 		}
 	}
 
+//Additional Reference: 	https://docs.oracle.com/javase/tutorial/2d/advanced/examples/ClipImage.java; last accessed: 20240625	
   public void draw(Graphics g){
 		//TODO: -verify: if clip still has to be cleared
 		Rectangle2D rect = new Rectangle2D.Float();
@@ -422,17 +423,7 @@ class Dice {
 
 		//rect.setRect(0, 0, 128, 128);
 		//rect.setRect(iFrameCount*128, 0, 128, 128);
-		//note: clip rect has to move with object position
-    //edited by Mike, 20240623
-    //reminder:
-    //300 is object position;
-    //iFrameCount*128 is the animation frame to show;
-    //-iFrameCount*128 is move the object position to the current frame;
-    rect.setRect(300+iFrameCount*128-iFrameCount*128, 0, 128, 128);
-    //rect.setRect(0+iFrameCount*128-iFrameCount*128, 0, 128, 128);
-
-		Area myClipArea = new Area(rect);
-    //edited by Mike, 20240623
+		
 /*
 		g.setClip(myClipArea);
 		//added by Mike, 20240621
@@ -446,8 +437,12 @@ class Dice {
     AffineTransform trans = new AffineTransform();
     trans.setTransform(identity);
     //300 is object position;
-    trans.translate(300-iFrameCount*128, 0);
+    //trans.translate(300-iFrameCount*128, 0);
     //trans.translate(-iFrameCount*128, 0);
+	
+	//added by Mike, 20240625
+	//note clip rect has to also be updated;
+	//trans.scale(2,2); //1.5,1.5
 
 /*  //reference: https://stackoverflow.com/questions/8721312/java-image-cut-off; last accessed: 20240623
     //animating image doable, but shall need more computations;
@@ -456,11 +451,36 @@ class Dice {
     trans.rotate(Math.toRadians(45)); //input in degrees
     trans.translate(-128/2,-128/2);
 */
+	//reminder: when objects moved in x-y coordinates, rotation's reference point also moves with the update;
+	//"compounded translate and rotate"
+	//https://stackoverflow.com/questions/32513508/rotating-java-2d-graphics-around-specified-point; last accessed: 20240625
+	//answered by: MadProgrammer, 20150911T00:48; from 20150911T00:41
+		
+    trans.rotate(Math.toRadians(45)); //input in degrees
 
+	//added by Mike, 20240625
+	g2d.setTransform(trans);
+	
+	//note: clip rect has to move with object position
+    //edited by Mike, 20240623
+    //reminder:
+    //300 is object position;
+    //iFrameCount*128 is the animation frame to show;
+    //-iFrameCount*128 is move the object position to the current frame;
+    rect.setRect(300+iFrameCount*128-iFrameCount*128, 0, 128, 128);
+    //rect.setRect(0+iFrameCount*128-iFrameCount*128, 0, 128, 128);
+	
+		Area myClipArea = new Area(rect);
+		
+    //edited by Mike, 20240625; from 20240623
     g2d.setClip(myClipArea);
+    //g.setClip(myClipArea);
 
     //g2d.drawImage(image, trans, this);
-    g2d.drawImage(myBufferedImage, trans, null);
+    //g2d.drawImage(myBufferedImage, trans, null);
+    g2d.drawImage(myBufferedImage,300-iFrameCount*128, 0, null);
 
+	//added by Mike, 20240625
+	g2d.dispose();
     }
 }
