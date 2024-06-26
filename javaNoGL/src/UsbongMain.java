@@ -15,7 +15,7 @@
  * @company: Usbong
  * @author: SYSON, MICHAEL B.
  * @date created: 20240522
- * @last updated: 20240625; from 20240624
+ * @last updated: 20240626; from 20240625
  * @website: www.usbong.ph
  *
  */
@@ -367,7 +367,12 @@ class Dice {
 	private int iFrameCountMax=4;
 	private int iFrameCountDelay=0;
 	private int iFrameCountDelayMax=20;
-
+	
+	//added by Mike, 20240626
+	private int iRotationDegrees=0;
+	private int iFrameWidth=128;
+	private int iFrameHeight=128;
+		
 	private BufferedImage myBufferedImage;
 
     public Dice() {
@@ -414,21 +419,21 @@ class Dice {
 	}
 
 //Additional Reference: 	https://docs.oracle.com/javase/tutorial/2d/advanced/examples/ClipImage.java; last accessed: 20240625	
-  public void draw(Graphics g){
-		//TODO: -verify: if clip still has to be cleared
-		Rectangle2D rect = new Rectangle2D.Float();
+  public void draw(Graphics g) {
+	//TODO: -verify: if clip still has to be cleared
+	Rectangle2D rect = new Rectangle2D.Float();
 
-		//added by Mike, 20240621
-		//iFrameCount=2;
+	//added by Mike, 20240621
+	//iFrameCount=2;
 
-		//rect.setRect(0, 0, 128, 128);
-		//rect.setRect(iFrameCount*128, 0, 128, 128);
-		
+	//rect.setRect(0, 0, 128, 128);
+	//rect.setRect(iFrameCount*128, 0, 128, 128);
+	
 /*
-		g.setClip(myClipArea);
-		//added by Mike, 20240621
-		//g.drawImage(myBufferedImage, 0, 0, this);
-		g.drawImage(myBufferedImage, 0-iFrameCount*128, 0, null);
+	g.setClip(myClipArea);
+	//added by Mike, 20240621
+	//g.drawImage(myBufferedImage, 0, 0, this);
+	g.drawImage(myBufferedImage, 0-iFrameCount*128, 0, null);
 */
     //added by Mike, 20240623
     AffineTransform identity = new AffineTransform();
@@ -455,8 +460,21 @@ class Dice {
 	//"compounded translate and rotate"
 	//https://stackoverflow.com/questions/32513508/rotating-java-2d-graphics-around-specified-point; last accessed: 20240625
 	//answered by: MadProgrammer, 20150911T00:48; from 20150911T00:41
-		
-    trans.rotate(Math.toRadians(45)); //input in degrees
+	
+	//update x and y positions before rotate
+	//object position x=300, y=0;
+    //trans.translate(300,0);
+    trans.translate(300,300);
+
+	//scales from top-left as reference point
+    //trans.scale(2,2);	
+	//rotates using top-left as anchor
+    //trans.rotate(Math.toRadians(45)); //input in degrees
+	
+	//rotate at center; put translate after rotate
+	iRotationDegrees=(iRotationDegrees+10)%360;	
+    trans.rotate(Math.toRadians(iRotationDegrees));
+    trans.translate(-iFrameWidth/2,-iFrameHeight/2);
 
 	//added by Mike, 20240625
 	g2d.setTransform(trans);
@@ -467,10 +485,10 @@ class Dice {
     //300 is object position;
     //iFrameCount*128 is the animation frame to show;
     //-iFrameCount*128 is move the object position to the current frame;
-    rect.setRect(300+iFrameCount*128-iFrameCount*128, 0, 128, 128);
-    //rect.setRect(0+iFrameCount*128-iFrameCount*128, 0, 128, 128);
+    //rect.setRect(300+iFrameCount*128-iFrameCount*128, 0, 128, 128);
+    rect.setRect(0+iFrameCount*iFrameWidth-iFrameCount*iFrameWidth, 0, iFrameWidth, iFrameHeight);
 	
-		Area myClipArea = new Area(rect);
+	Area myClipArea = new Area(rect);
 		
     //edited by Mike, 20240625; from 20240623
     g2d.setClip(myClipArea);
@@ -478,9 +496,10 @@ class Dice {
 
     //g2d.drawImage(image, trans, this);
     //g2d.drawImage(myBufferedImage, trans, null);
-    g2d.drawImage(myBufferedImage,300-iFrameCount*128, 0, null);
+    //g2d.drawImage(myBufferedImage,300-iFrameCount*128, 0, null);
+    g2d.drawImage(myBufferedImage,-iFrameCount*iFrameWidth, 0, null);
 
 	//added by Mike, 20240625
 	g2d.dispose();
-    }
+  }
 }
