@@ -15,7 +15,7 @@
  * @company: Usbong
  * @author: SYSON, MICHAEL B.
  * @date created: 20240522
- * @last updated: 20240626; from 20240625
+ * @last updated: 20240627; from 20240626
  * @website: www.usbong.ph
  *
  */
@@ -26,7 +26,6 @@
 
  2) Execute
 	java UsbongMain
-
 */
 
 /*
@@ -286,16 +285,21 @@ class MyPanel extends JPanel {
 
             // The square is moving, repaint background
             // over the old square location.
-            repaint(CURR_X,CURR_Y,CURR_W+OFFSET,CURR_H+OFFSET);
+			//removed by Mike, 20240627
+			//repaint already done by TimerTask			
+            //repaint(CURR_X,CURR_Y,CURR_W+OFFSET,CURR_H+OFFSET);
 
             // Update coordinates.
             redSquare.setX(x);
             redSquare.setY(y);
 
             // Repaint the square at the new location.
+/*			//removed by Mike, 20240627;
+			//repaint already done by TimerTask
             repaint(redSquare.getX(), redSquare.getY(),
                     redSquare.getWidth()+OFFSET,
                     redSquare.getHeight()+OFFSET);
+*/					
         }
     }
 
